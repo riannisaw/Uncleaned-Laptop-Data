@@ -1,0 +1,375 @@
+--
+SELECT 
+    company,
+    typename,
+    COUNT(*) AS sample_size,
+    MIN(price) AS min_price,
+    PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY price) AS q1_price,
+    PERCENTILE_CONT(0.5)  WITHIN GROUP (ORDER BY price) AS median_price,
+    PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY price) AS q3_price,
+    MAX(price) AS max_price
+FROM laptop_cleaning
+GROUP BY company, typename
+ORDER BY company, typename;
+
+
+SELECT 
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_gaming_price
+FROM laptop_cleaning
+WHERE typename = 'Gaming';
+
+SELECT
+    company,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_gaming_price
+FROM laptop_cleaning
+WHERE typename = 'Gaming'
+GROUP BY company
+ORDER BY median_gaming_price DESC;
+
+SELECT
+    typename,
+    AVG(price) AS mean_price,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_price
+FROM laptop_cleaning
+WHERE company = 'HP'
+  AND typename IN ('Netbook', 'Ultrabook', '2 in 1 Convertible', 'Workstation')
+GROUP BY typename
+ORDER BY typename;
+
+
+-- typename vs price
+SELECT
+    typename,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_price
+FROM laptop_cleaning
+GROUP BY typename;
+
+-- WEIGHT AND INCHES
+SELECT CORR(weight, inches) AS correlation_weight_inch
+FROM laptop_cleaning;
+--0,802 is a strong correlation
+
+SELECT
+    inches,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY weight) AS median_weight,
+    MIN(weight) AS min_weight,
+    MAX(weight) AS max_weight
+FROM laptop_cleaning
+GROUP BY inches
+ORDER BY inches;
+
+
+SELECT
+    inches,
+    typename,
+    AVG(weight) AS avg_weight,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY weight) AS median_weight
+FROM laptop_cleaning
+GROUP BY inches, typename
+ORDER BY inches, typename;
+
+SELECT
+    typename,
+    AVG(weight) AS avg_weight,
+    MIN(weight) AS min_weight,
+    MAX(weight) AS max_weight
+FROM laptop_cleaning
+GROUP BY typename
+ORDER BY avg_weight DESC;
+
+-- # from the graph we can clearly see that the typename - is the cause of the weight fluctuation at the same screen size because.
+# the workstation and the gaming laptops tends to be on the heavier side. -- because of the cooling systems, metal chassis, bigger batteries.  and other specs.
+
+-- inches vs weight
+SELECT 
+    inches,
+    hdd_capacity,
+    COUNT(*) AS total_laptops,
+    AVG(weight) AS avg_weight,
+    PERCENTILE_CONT (0.5) WITHIN GROUP (ORDER BY weight) AS median_weight,
+    MIN(weight) AS min_weight,
+    MAX(weight) AS max_weight
+FROM laptop_cleaning
+GROUP BY inches, hdd_capacity
+ORDER BY inches, hdd_capacity;
+-- at the bigger screens lower hdd_capacity is present still the weight is higher, 
+-- so the hdd_capacity - wont be a big contributer to the weight.
+
+
+-- why Intel-based laptops are more expensive,
+SELECT 
+    cpu_brand,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_price,
+    AVG(price) AS avg_price,
+    MIN(price) AS min_price,
+    MAX(price) AS max_price,
+    COUNT(*) AS total_laptops
+FROM laptop_cleaning
+GROUP BY cpu_brand;
+-- the laptops with the intel cpus fall under various categories - but the laptops which are expensive - are either gaming or workstation and few ultrabooks.
+
+
+SELECT 
+    cpu_brand,
+    typename,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_price,
+    COUNT(*) AS count_devices
+FROM laptop_cleaning
+GROUP BY cpu_brand, typename
+ORDER BY cpu_brand, median_price DESC;
+
+SELECT 
+    cpu_brand,
+    inches,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_price,
+    COUNT(*) AS total
+FROM laptop_cleaning
+GROUP BY cpu_brand, inches
+ORDER BY cpu_brand, inches;
+-- # they mostly have bigger screen 17.3 inches.
+
+
+WITH base AS (
+    SELECT 
+        *
+    FROM laptop_cleaning l
+    LEFT JOIN screen_data s
+        ON l.resolution = s.resolution
+)
+SELECT 
+    cpu_brand,
+    display_ips_panel,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_price,
+    COUNT(*)
+FROM base
+GROUP BY cpu_brand, display_ips_panel
+ORDER BY cpu_brand, display_ips_panel;
+
+--GPU influence — expensive Intel machines usually use NVIDIA GPUs
+WITH base AS (
+    SELECT 
+        l.cpu_brand,
+        l.price,
+        s.display_ips_panel
+    FROM laptop_cleaning l
+    LEFT JOIN screen_data s
+        ON l.resolution = s.resolution
+)
+SELECT 
+    cpu_brand,
+    display_ips_panel,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_price,
+    COUNT(*)
+FROM base
+GROUP BY cpu_brand, display_ips_panel
+ORDER BY cpu_brand, display_ips_panel;
+
+-- GPU influence — expensive Intel machines usually use NVIDIA GPUs
+SELECT 
+    cpu_brand,
+    gpu_brand,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_price,
+    COUNT(*)
+FROM laptop_cleaning
+GROUP BY cpu_brand, gpu_brand
+ORDER BY cpu_brand, median_price DESC;
+
+--clock speed influence
+SELECT 
+    cpu_brand,
+    clock_speed,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_price
+FROM laptop_cleaning
+GROUP BY cpu_brand, clock_speed
+ORDER BY cpu_brand, clock_speed;
+
+-- ssd capacity correlation with the price
+SELECT 
+    cpu_brand,
+    ssd_capacity,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) AS median_price
+FROM laptop_cleaning
+GROUP BY cpu_brand, ssd_capacity
+ORDER BY cpu_brand, ssd_capacity;
+
+-- WHICH FEATURE CAUSES THE HIGHER PRICES WITHIN THE SAME CPU
+WITH base AS (
+    SELECT
+        *
+    FROM laptop_cleaning l
+    LEFT JOIN screen_data s
+        ON l.resolution = s.resolution
+)
+SELECT display_ips_panel, display_ips_touch_screen, ppi_whole
+FROM base
+WHERE cpu_brand = 'Intel' AND price > 150000;
+
+WITH base AS (
+    SELECT
+        *
+    FROM laptop_cleaning l
+    LEFT JOIN screen_data s
+        ON l.resolution = s.resolution
+)
+SELECT
+    typename,
+    COUNT(*) AS total
+FROM base
+WHERE cpu_brand = 'Intel'
+  AND price > 150000
+GROUP BY typename
+ORDER BY total DESC;
+-- higher price mostly supported by gaming and workstation 
+
+
+WITH base AS (
+    SELECT
+        *
+    FROM laptop_cleaning l
+    LEFT JOIN screen_data s
+        ON l.resolution = s.resolution
+)
+SELECT
+    inches,
+    COUNT(*) AS total
+FROM base
+WHERE cpu_brand = 'Intel'
+  AND price > 150000
+GROUP BY inches
+ORDER BY total DESC;
+-- inches 17.3 dominates 
+
+WITH base AS (
+    SELECT
+        *
+    FROM laptop_cleaning l
+    LEFT JOIN screen_data s
+        ON l.resolution = s.resolution
+)
+SELECT 
+    ram,
+    COUNT(*) AS total
+FROM base
+WHERE cpu_brand = 'Intel'
+  AND price > 150000
+GROUP BY ram
+ORDER BY total DESC;
+-- RAM 16 and 32 GB
+
+WITH base AS (
+    SELECT
+        *
+    FROM laptop_cleaning l
+    LEFT JOIN screen_data s
+        ON l.resolution = s.resolution
+)
+SELECT 
+    display_ips_panel,
+    COUNT(*) AS total
+FROM base
+WHERE cpu_brand = 'Intel'
+  AND price > 150000
+GROUP BY display_ips_panel
+ORDER BY total DESC;
+
+WITH base AS (
+    SELECT
+        *
+    FROM laptop_cleaning l
+    LEFT JOIN screen_data s
+        ON l.resolution = s.resolution
+)
+SELECT 
+    display_ips_touch_screen,
+    COUNT(*) AS total
+FROM laptop_cleaning
+WHERE cpu_brand = 'Intel'
+  AND price > 150000
+GROUP BY display_ips_touch_screen
+ORDER BY total DESC;
+
+-- ips diplay panel lebih berefek sama mahalnya harga hohoho
+
+-- correlation
+-- Price AND display ips panel
+SELECT CORR(ips_panel, price) AS correlation_price
+FROM laptop_cleaning;
+--0,802 is a strong correlation
+
+SELECT 
+    ips_panel,
+    avg ()
+
+FROM laptop_cleaning;
+
+WITH base AS (
+    SELECT
+        *
+    FROM laptop_cleaning l
+    LEFT JOIN screen_data s
+        ON l.resolution = s.resolution
+)
+SELECT
+    gpu_brand,
+    COUNT(*) AS total
+FROM base
+WHERE cpu_brand = 'Intel'
+  AND price > 150000
+GROUP BY gpu_brand
+ORDER BY total DESC;
+
+SELECT
+    clock_speed,
+    COUNT(*) AS total
+FROM laptop_cleaning
+WHERE cpu_brand = 'Intel'
+  AND price > 150000
+GROUP BY clock_speed
+ORDER BY total DESC;
+
+SELECT
+    ssd_capacity,
+    COUNT(*) AS total
+FROM laptop_cleaning
+WHERE cpu_brand = 'Intel'
+  AND price > 150000
+GROUP BY ssd_capacity
+ORDER BY total DESC;
+
+-- typename - gaming and workstations 
+-- bigger screen size, higher ram, ips_panel display, nvidia gpu, slightly higher clock speeds, ssd_capacity 
+-- for amd also similar reasons
+
+SELECT price, 
+    COUNT (*) as count
+FROM laptop_cleaning
+GROUP BY price
+ORDER BY price ASC;
+
+WITH price_limits AS (
+    SELECT 9270.72 AS min_price, 324954.72 AS max_price
+),
+bucketed AS (
+    SELECT
+        *,
+        NTILE(10) OVER (ORDER BY price) AS bucket
+    FROM laptop_cleaning
+)
+SELECT bucket,
+       MIN(price) AS bucket_min,
+       MAX(price) AS bucket_max,
+       COUNT(*) AS total_items
+FROM bucketed
+GROUP BY bucket
+ORDER BY bucket;
+
+
+-- laptops with gpu of nvidia brand - outlier analysis(on price)
+-- mostly because of the higher ram, bigger screens and higher clock speed and ssd is present.
+
+SELECT
+        *
+FROM laptop_cleaning l
+    LEFT JOIN screen_data s
+        ON l.resolution = s.resolution
+ORDER BY unnamed; 
