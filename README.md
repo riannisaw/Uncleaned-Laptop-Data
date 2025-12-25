@@ -9,15 +9,6 @@ The Uncleaned Laptop Price dataset is a collection of laptop product listings sc
 The goal of this project is to identify the factors that contribute the price of laptop. By performing a data analysis using SQL, this project aims to clean the data, which is important to the data to be tidy to provide valuable insights to analyze.
 
 ### Project Structure
-#### sql
-- 01_schema
-  creating table and input the dataset
-- 02_data_cleaning
-  Assesses data quality and applies cleaning steps such as type casting, missing value handling, and standardization.
-- 03_eda
-  Performs univariate, bivariate, and multivariate analysis entirely in SQL to explore laptop characteristics and pricing patterns.
-
-### Project Structure
 #### SQL
 
 <details>
@@ -77,6 +68,22 @@ The analysis was structured as:
 - Multivariate analysis to study combined effects of multiple variables
 
 ### Key Insights
+#### Brand Distribution
+Which laptop brands have the highest number of product listings in the dataset?
+
+**SQL Query:**  
+[`01_univariate_analysis.sql`](sql/03_EDA/01_univariate_analysis.sql)
+
+**Result:**
+
+<img width="421" height="504" alt="image" src="https://github.com/user-attachments/assets/b67b1b68-f512-4bc8-91fc-0d368ed584b3" />
+
+
+**Insights:** 
+The laptop market is highly concentrated among a few major brands.
+Lenovo, Dell, and HP together account for more than 65% in the dataset, indicating strong dominance by established manufacturers. Acer and Asus then following in the top 5, which in total 20% in the listings. 
+This suggests that pricing and feature trends in the dataset are largely driven by these top brands, while smaller brands each contribute less than 5% indicates limited market and niche segments.
+
 #### Type of Laptops
 What is the most typical laptop the company have? 
 
@@ -87,11 +94,67 @@ What is the most typical laptop the company have?
 
 <img width="405" height="198" alt="image" src="https://github.com/user-attachments/assets/e0d997fe-527f-435d-bf07-2ff5beb5ec49" />
 
-**Insights:** Most laptops fall into the Notebook category, indicating that portability and general-purpose usage dominate the market.
+**Insights:** Most laptops fall into the Notebook category, showing that portability and general-purpose usage dominate the market, also making notebooks the most representative category for further analysis.
 
-#### Company / Brand Distribution
-Which laptop brands have the highest number of product listings in the dataset?
-<img width="302" height="506" alt="image" src="https://github.com/user-attachments/assets/e2abfd21-bc96-42fb-a714-f15a88481c25" />
+#### Screen Size
+What is the typical laptop screen size after removing invalid and extreme values?
+
+**SQL Query:**  
+[`01_univariate_analysis.sql`](sql/03_EDA/01_univariate_analysis.sql)
+
+**Result:**
+
+<img width="282" height="459" alt="image" src="https://github.com/user-attachments/assets/d7ac4000-48c1-43be-b46e-a1c7c053ec9f" />
+<img width="292" height="87" alt="image" src="https://github.com/user-attachments/assets/a982e630-a0bd-4291-9c10-5644fd4f3a48" />
+
+**insights:**
+The average and median screen sizes are both around the mid-15-inch range, simply showing that most laptops follow a standard form factor.
+The closeness of the mean and median suggests a relatively balanced distribution after cleaning.
+
+#### RAM 
+What are the most common RAM configurations among laptops in the dataset?
+
+**SQL Query:**  
+[`01_univariate_analysis.sql`](sql/03_EDA/01_univariate_analysis.sql)
+
+**Result:**
+<img width="428" height="310" alt="image" src="https://github.com/user-attachments/assets/954c7baf-0fbb-4cb0-83f0-5753314dddfb" />
+
+**insights:**
+Most laptops are equipped with mid-range RAM configurations, reflecting typical consumer usage.
+Higher RAM options appear less frequently, suggesting they are targeted toward specialized or high-performance use cases.
+
+#### Operating Systems 
+Which operating systems are most commonly used across laptop listings?
+
+**SQL Query:**  
+[`01_univariate_analysis.sql`](sql/03_EDA/01_univariate_analysis.sql)
+
+**Result:**
+<img width="444" height="198" alt="image" src="https://github.com/user-attachments/assets/de809fc3-48a0-4f78-a458-c9c2e11abc2f" />
+
+**insights:**
+Windows clearly dominates the dataset accounting for over 86% of all listings, pointing out strong market standardization.
+Alternative operating systems represent smaller segments, likely catering to niche or specialized users.
+
+#### inches vs weight
+Is there a relationship between laptop screen size and device weight?
+
+**Result:**
+
+15.6-inch laptops dominate the market and represent the broadest price range.
+This screen size accounts for the highest number of listings and spans from budget to premium price points, indicating it is the most versatile and widely adopted form factor across consumer segments.
+
+correlation value: 
+<img width="298" height="90" alt="image" src="https://github.com/user-attachments/assets/1ded935b-6408-4ffe-ae07-5425dfdd15c7" />
+
+scatter box: 
+
+**insights:**
+Screen size and weight exhibit a strong positive correlation (r ≈ 0.82), indicating that larger laptops tend to be significantly heavier.
+This highlights a clear trade-off between portability and screen size in laptop design.
+
+
 
 
 ### Visualization
