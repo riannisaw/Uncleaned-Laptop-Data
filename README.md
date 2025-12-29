@@ -137,13 +137,25 @@ Which operating systems are most commonly used across laptop listings?
 Windows clearly dominates the dataset accounting for over 86% of all listings, pointing out strong market standardization.
 Alternative operating systems represent smaller segments, likely catering to niche or specialized users.
 
-#### inches vs weight
-Is there a relationship between laptop screen size and device weight?
+
+#### price vs screen size
+How does laptop screen size relate to pricing and market distribution?
 
 **Result:**
 
+<img width="623" height="457" alt="image" src="https://github.com/user-attachments/assets/4088604b-aa93-4115-9a33-401e59e062fb" />
+
+<img width="305" height="83" alt="image" src="https://github.com/user-attachments/assets/31862520-679f-4704-91a5-34d775b82a8a" />
+
+**insights:** 
+
 15.6-inch laptops dominate the market and represent the broadest price range.
 This screen size accounts for the highest number of listings and spans from budget to premium price points, indicating it is the most versatile and widely adopted form factor across consumer segments.
+
+Despite having fewer listings, larger screen sizes such as 17.3 inches exhibit some of the highest maximum prices, suggesting that large-screen laptops are commonly associated with high-performance configurations.
+
+#### inches vs weight
+Is there a relationship between laptop screen size and device weight?
 
 correlation value: 
 <img width="298" height="90" alt="image" src="https://github.com/user-attachments/assets/1ded935b-6408-4ffe-ae07-5425dfdd15c7" />
