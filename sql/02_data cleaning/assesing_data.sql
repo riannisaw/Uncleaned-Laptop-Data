@@ -20,6 +20,10 @@ SELECT
   COUNT(price) AS price_not_null
 FROM laptop_cleaning;
 
+SELECT *
+FROM laptop_cleaning_backup
+WHERE memory IS NULL; 
+
 -- count missing value
 SELECT
     COUNT(*) AS total_rows,

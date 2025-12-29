@@ -5,13 +5,20 @@ FROM laptop_cleaning
 GROUP BY company
 ORDER BY products DESC;
 
+SELECT company, 
+    COUNT (*) AS company_count, 
+    ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 2) AS percentage
+FROM laptop_cleaning
+GROUP BY company
+ORDER BY company_count DESC;
+
 SELECT typename, 
     COUNT (*) AS products
 FROM laptop_cleaning
 GROUP BY typename
 ORDER BY products DESC;
 
--- percentage count use Tableau
+
 SELECT typename, 
     COUNT (*) AS type_count, 
     ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 2) AS percentage
@@ -19,14 +26,16 @@ FROM laptop_cleaning
 GROUP BY typename
 ORDER BY type_count DESC;
 
+-- Most laptops fall into the Notebook category, indicating that portability and general-purpose usage dominate the market.
+
 SELECT inches, 
     COUNT (*) AS inches_count
 FROM laptop_cleaning
 GROUP BY inches
-ORDER BY inches;
+ORDER BY inches_count DESC;
 
 SELECT 
-    AVG(inches) AS avg_inches,
+    ROUND(AVG(inches), 2) AS avg_inches,
     PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY inches) AS median_inches
 FROM laptop_cleaning;
 
@@ -78,7 +87,7 @@ SELECT ram,
     ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 2) AS percentage
 FROM laptop_cleaning
 GROUP BY ram
-ORDER BY ram_count;
+ORDER BY ram_count DESC;
 
 -- 64 gb is possible - for the specialised laptops.
 SELECT *

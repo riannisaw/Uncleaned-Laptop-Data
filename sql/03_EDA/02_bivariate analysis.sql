@@ -1,57 +1,119 @@
-CREATE TABLE corr_inches AS
-SELECT 'ram' as variable, corr (ram,inches) AS correlation
-FROM laptop_cleaning
-UNION ALL
+-- Built a full correlation matrix using advanced SQL by unpivoting numerical features with lateral joins and reconstructing a pivot-style correlation table for exploratory analysis and heatmap visualization
+
+WITH corr_long AS (
+    SELECT
+        v1.var AS variable,
+        v2.var AS corr_with,
+        corr(v1.val, v2.val) AS correlation
+    FROM laptop_cleaning l
+    CROSS JOIN LATERAL (
+        VALUES
+        ('clock_speed', clock_speed),
+        ('flash_storage', flash_storage),
+        ('hdd_capacity', hdd_capacity),
+        ('hdd_count', hdd_count),
+        ('inches', inches),
+        ('ips_panel', display_ips_panel::int),
+        ('ppi_whole', ppi_whole),
+        ('price', price),
+        ('px_height', px_height),
+        ('px_width', px_width),
+        ('ram', ram),
+        ('ssd_capacity', ssd_capacity),
+        ('ssd_count', ssd_count),
+        ('touch_screen', display_ips_touch_screen::int),
+        ('weight', weight)
+    ) v1(var, val)
+    CROSS JOIN LATERAL (
+        VALUES
+        ('clock_speed', clock_speed),
+        ('flash_storage', flash_storage),
+        ('hdd_capacity', hdd_capacity),
+        ('hdd_count', hdd_count),
+        ('inches', inches),
+        ('ips_panel', display_ips_panel::int),
+        ('ppi_whole', ppi_whole),
+        ('price', price),
+        ('px_height', px_height),
+        ('px_width', px_width),
+        ('ram', ram),
+        ('ssd_capacity', ssd_capacity),
+        ('ssd_count', ssd_count),
+        ('touch_screen', display_ips_touch_screen::int),
+        ('weight', weight)
+    ) v2(var, val)
+    GROUP BY v1.var, v2.var
+)
 SELECT
-    'weight', corr (weight, inches)
-FROM laptop_cleaning
-UNION ALL 
-SELECT 
-    'price', corr (price, inches)
-    FROM laptop_cleaning
-UNION ALL
-SELECT
-    'px_width', corr (px_width, inches)
-    FROM laptop_cleaning
-UNION ALL
-SELECT
-    'px_height', corr (px_height, inches)
-    FROM laptop_cleaning
-UNION ALL
-SELECT
-    'clock_speed', corr (clock_speed, inches)
-    FROM laptop_cleaning
-UNION ALL
-SELECT
-    'ssd_capacity', corr (ssd_capacity, inches)
-    FROM laptop_cleaning
-UNION ALL
-SELECT
-    'hdd_capacity', corr (hdd_capacity, inches)
-    FROM laptop_cleaning
-UNION ALL
-SELECT
-    'ssd_count', corr (ssd_count, inches)
-    FROM laptop_cleaning
-UNION ALL
-SELECT
-    'hdd_count', corr (hdd_count, inches)
-    FROM laptop_cleaning
-UNION ALL
-SELECT
-    'flash_storage', corr (flash_storage, inches)
-    FROM laptop_cleaning
-UNION ALL
-SELECT
-    'ips_panel', corr (px_width, inches)
-    FROM laptop_cleaning
-UNION ALL
-SELECT
-    'touch_screen', corr (px_width, inches)
-    FROM laptop_cleaning;
+    variable,
+
+    MAX(CASE WHEN corr_with = 'clock_speed' THEN correlation END) AS corr_clock_speed,
+    MAX(CASE WHEN corr_with = 'flash_storage' THEN correlation END) AS corr_flash_storage,
+    MAX(CASE WHEN corr_with = 'hdd_capacity' THEN correlation END) AS corr_hdd_capacity,
+    MAX(CASE WHEN corr_with = 'hdd_count' THEN correlation END) AS corr_hdd_count,
+    MAX(CASE WHEN corr_with = 'inches' THEN correlation END) AS corr_inches,
+    MAX(CASE WHEN corr_with = 'ips_panel' THEN correlation END) AS corr_ips_panel,
+    MAX(CASE WHEN corr_with = 'ppi_whole' THEN correlation END) AS corr_ppi_whole,
+    MAX(CASE WHEN corr_with = 'price' THEN correlation END) AS corr_price,
+    MAX(CASE WHEN corr_with = 'px_height' THEN correlation END) AS corr_px_height,
+    MAX(CASE WHEN corr_with = 'px_width' THEN correlation END) AS corr_px_width,
+    MAX(CASE WHEN corr_with = 'ram' THEN correlation END) AS corr_ram,
+    MAX(CASE WHEN corr_with = 'ssd_capacity' THEN correlation END) AS corr_ssd_capacity,
+    MAX(CASE WHEN corr_with = 'ssd_count' THEN correlation END) AS corr_ssd_count,
+    MAX(CASE WHEN corr_with = 'touch_screen' THEN correlation END) AS corr_touch_screen,
+    MAX(CASE WHEN corr_with = 'weight' THEN correlation END) AS corr_weight
+
+FROM corr_long
+GROUP BY variable
+ORDER BY variable;
+
+-- price vs inches
+-- numerical vs numerical
+-- corr = 
+
+CREATE TABLE corr_prices AS
+SELECT 'inches' as variable, corr (inches, price) AS correlation
+FROM laptop_cleaning; 
 
 SELECT *
-FROM corr_inches;
+FROM corr_prices;
+
+SELECT 
+    price,
+    inches,
+    COUNT (*) AS laptop_count
+FROM laptop_cleaning
+WHERE inches IS NOT NULL
+GROUP BY price, inches
+ORDER BY inches;
+
+SELECT
+    inches,
+    COUNT(*) AS laptop_count,
+    STRING_AGG(price::text, ', ' ORDER BY price) AS price_list
+FROM laptop_cleaning
+GROUP BY inches
+ORDER BY inches;
+
+SELECT
+    inches,     -- x-axis
+    price       -- y-axis
+FROM laptop_cleaning
+WHERE inches IS NOT NULL
+  AND price IS NOT NULL
+ORDER BY inches, price;
+
+SELECT
+    inches,
+    COUNT(*)            AS num_products,
+    MIN(price)          AS min_price,
+    ROUND(AVG(price),2) AS avg_price,
+    MAX(price)          AS max_price
+FROM laptop_cleaning
+WHERE inches IS NOT NULL
+  AND price IS NOT NULL
+GROUP BY inches
+ORDER BY inches;
 
 -- inches vs weight 
 -- numerical vs numerical

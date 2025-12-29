@@ -55,15 +55,6 @@ SELECT 'ppi_whole', corr(ppi_whole, inches)
 FROM laptop_cleaning;
 
 
-DROP TABLE corr_inches;
-
-
-SELECT *
-FROM corr_inches;
-
-ALTER TABLE corr_summary
-RENAME TO corr_price;
-
 -- px_width
 CREATE TABLE corr_width AS
 SELECT 'ram' as variable, corr (ram,px_width) AS correlation
@@ -692,13 +683,6 @@ SELECT
     'ppi_whole', corr(ppi_whole, ppi_whole)
     FROM laptop_cleaning;
 
-
-DROP TABLE corr_price;
-
-DROP TABLE corr_weight;
-
-DROP TABLE corr_ram;
-
 -- PRICE 
 CREATE TABLE corr_price AS
 SELECT 'ram' as variable, corr (ram,price) AS correlation
@@ -1014,3 +998,148 @@ LEFT JOIN corr_ssd_capacity t12 ON t1.variable = t12.variable
 LEFT JOIN corr_ssd_count t13 ON t1.variable = t13.variable
 LEFT JOIN corr_touch_screen t14 ON t1.variable = t14.variable
 LEFT JOIN corr_weight t15 ON t1.variable = t15.variable;
+
+
+CREATE TABLE correlation_matrix AS
+WITH base AS (
+    SELECT
+        price,
+        weight,
+        ram,
+        inches,
+        px_width,
+        px_height,
+        clock_speed,
+        ssd_capacity,
+        hdd_capacity,
+        ssd_count,
+        hdd_count,
+        flash_storage,
+        ips_panel::int AS ips_panel,
+        touch_screen::int AS touch_screen,
+        ppi_whole
+    FROM laptop_cleaning
+),
+long AS (
+    SELECT
+        base_var,
+        var,
+        base_value,
+        var_value
+    FROM base
+    CROSS JOIN LATERAL (
+        VALUES
+        ('price', price),
+        ('weight', weight),
+        ('ram', ram),
+        ('inches', inches),
+        ('px_width', px_width),
+        ('px_height', px_height),
+        ('clock_speed', clock_speed),
+        ('ssd_capacity', ssd_capacity),
+        ('hdd_capacity', hdd_capacity),
+        ('ssd_count', ssd_count),
+        ('hdd_count', hdd_count),
+        ('flash_storage', flash_storage),
+        ('ips_panel', ips_panel),
+        ('touch_screen', touch_screen),
+        ('ppi_whole', ppi_whole)
+    ) base_cols(base_var, base_value)
+    CROSS JOIN LATERAL (
+        VALUES
+        ('price', price),
+        ('weight', weight),
+        ('ram', ram),
+        ('inches', inches),
+        ('px_width', px_width),
+        ('px_height', px_height),
+        ('clock_speed', clock_speed),
+        ('ssd_capacity', ssd_capacity),
+        ('hdd_capacity', hdd_capacity),
+        ('ssd_count', ssd_count),
+        ('hdd_count', hdd_count),
+        ('flash_storage', flash_storage),
+        ('ips_panel', ips_panel),
+        ('touch_screen', touch_screen),
+        ('ppi_whole', ppi_whole)
+    ) var_cols(var, var_value)
+)
+SELECT
+    base_var,
+    var AS variable,
+    corr(base_value, var_value) AS correlation
+FROM long
+GROUP BY base_var, var
+ORDER BY base_var, var;
+
+SELECT *
+FROM correlation_matrix;
+
+-- Built a full correlation matrix using advanced SQL by unpivoting numerical features with lateral joins and reconstructing a pivot-style correlation table for exploratory analysis and heatmap visualization
+
+WITH corr_long AS (
+    SELECT
+        v1.var AS variable,
+        v2.var AS corr_with,
+        corr(v1.val, v2.val) AS correlation
+    FROM laptop_cleaning l
+    CROSS JOIN LATERAL (
+        VALUES
+        ('clock_speed', clock_speed),
+        ('flash_storage', flash_storage),
+        ('hdd_capacity', hdd_capacity),
+        ('hdd_count', hdd_count),
+        ('inches', inches),
+        ('ips_panel', display_ips_panel::int),
+        ('ppi_whole', ppi_whole),
+        ('price', price),
+        ('px_height', px_height),
+        ('px_width', px_width),
+        ('ram', ram),
+        ('ssd_capacity', ssd_capacity),
+        ('ssd_count', ssd_count),
+        ('touch_screen', display_ips_touch_screen::int),
+        ('weight', weight)
+    ) v1(var, val)
+    CROSS JOIN LATERAL (
+        VALUES
+        ('clock_speed', clock_speed),
+        ('flash_storage', flash_storage),
+        ('hdd_capacity', hdd_capacity),
+        ('hdd_count', hdd_count),
+        ('inches', inches),
+        ('ips_panel', display_ips_panel::int),
+        ('ppi_whole', ppi_whole),
+        ('price', price),
+        ('px_height', px_height),
+        ('px_width', px_width),
+        ('ram', ram),
+        ('ssd_capacity', ssd_capacity),
+        ('ssd_count', ssd_count),
+        ('touch_screen', display_ips_touch_screen::int),
+        ('weight', weight)
+    ) v2(var, val)
+    GROUP BY v1.var, v2.var
+)
+SELECT
+    variable,
+
+    MAX(CASE WHEN corr_with = 'clock_speed' THEN correlation END) AS corr_clock_speed,
+    MAX(CASE WHEN corr_with = 'flash_storage' THEN correlation END) AS corr_flash_storage,
+    MAX(CASE WHEN corr_with = 'hdd_capacity' THEN correlation END) AS corr_hdd_capacity,
+    MAX(CASE WHEN corr_with = 'hdd_count' THEN correlation END) AS corr_hdd_count,
+    MAX(CASE WHEN corr_with = 'inches' THEN correlation END) AS corr_inches,
+    MAX(CASE WHEN corr_with = 'ips_panel' THEN correlation END) AS corr_ips_panel,
+    MAX(CASE WHEN corr_with = 'ppi_whole' THEN correlation END) AS corr_ppi_whole,
+    MAX(CASE WHEN corr_with = 'price' THEN correlation END) AS corr_price,
+    MAX(CASE WHEN corr_with = 'px_height' THEN correlation END) AS corr_px_height,
+    MAX(CASE WHEN corr_with = 'px_width' THEN correlation END) AS corr_px_width,
+    MAX(CASE WHEN corr_with = 'ram' THEN correlation END) AS corr_ram,
+    MAX(CASE WHEN corr_with = 'ssd_capacity' THEN correlation END) AS corr_ssd_capacity,
+    MAX(CASE WHEN corr_with = 'ssd_count' THEN correlation END) AS corr_ssd_count,
+    MAX(CASE WHEN corr_with = 'touch_screen' THEN correlation END) AS corr_touch_screen,
+    MAX(CASE WHEN corr_with = 'weight' THEN correlation END) AS corr_weight
+
+FROM corr_long
+GROUP BY variable
+ORDER BY variable;
