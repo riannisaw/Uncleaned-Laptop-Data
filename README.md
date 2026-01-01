@@ -1,4 +1,4 @@
-## Data Cleaning Project - Uncleaned Laptop Price Dataset
+<img width="449" height="307" alt="image" src="https://github.com/user-attachments/assets/49b93fb7-d84e-44e7-be33-c260f62ebb6d" />## Data Cleaning Project - Uncleaned Laptop Price Dataset
 **Understanding the Structure and Content of an Unprocessed Laptop Price Dataset**
 This is SQL based data analysis project focusing on data cleaning, exploratory data analysis, and insights into laptop pricing factors.
 
@@ -154,17 +154,50 @@ This screen size accounts for the highest number of listings and spans from budg
 
 Despite having fewer listings, larger screen sizes such as 17.3 inches exhibit some of the highest maximum prices, suggesting that large-screen laptops are commonly associated with high-performance configurations.
 
-#### inches vs weight
-Is there a relationship between laptop screen size and device weight?
 
-correlation value: 
-<img width="298" height="90" alt="image" src="https://github.com/user-attachments/assets/1ded935b-6408-4ffe-ae07-5425dfdd15c7" />
+#### weight vs price
+Does laptop weight influence pricing?
 
-scatter box: 
+**sql query:**
 
-**insights:**
-Screen size and weight exhibit a strong positive correlation (r ≈ 0.82), indicating that larger laptops tend to be significantly heavier.
-This highlights a clear trade-off between portability and screen size in laptop design.
+
+**Result:**
+<img width="338" height="611" alt="image" src="https://github.com/user-attachments/assets/219c59c6-5042-41a8-83e4-6516c432c676" /> 
+<img width="336" height="607" alt="image" src="https://github.com/user-attachments/assets/8f186653-9737-4aaa-b9e5-31d348599067" />
+
+**Insight:**
+
+Laptop weight shows only a moderate relationship with price, indicating that portability alone does not strongly determine cost.
+Lightweight laptops exist across both mid-range and premium price segments, suggesting that price is influenced more by internal specifications than physical weight
+
+
+#### PPI vs Price 
+How does display quality (resolution and pixel density) affect laptop pricing?
+
+**results:**
+
+<img width="302" height="554" alt="image" src="https://github.com/user-attachments/assets/09ded581-1679-40f9-97f4-0316ea246d94" />
+<img width="299" height="607" alt="image" src="https://github.com/user-attachments/assets/f6cb372e-7f38-4705-868f-7c1505efbf6a" />
+
+**insight:**
+Higher pixel density is generally associated with higher laptop prices, but the relationship is not strictly linear.
+Laptops with higher PPI values (typically above ~180 PPI) tend to have significantly higher median prices, reflecting premium display quality such as sharper text and higher-resolution panels.
+However, notable price variability exists within similar PPI ranges, indicating that while display sharpness contributes to pricing, it is not the sole driver—other factors such as brand positioning, performance specifications, and target market also play a substantial role.
+
+#### RAM VS Price 
+How does RAM capacity influence laptop pricing?
+
+**result:**
+
+<img width="449" height="307" alt="image" src="https://github.com/user-attachments/assets/fba7029d-e789-4346-8494-97ef2bcfbf58" />
+
+
+**insight:**
+Higher RAM capacities are generally associated with higher laptop prices, although significant price variability exists within the same RAM tier.
+This indicates that while RAM is a key pricing factor, overall price is also influenced by CPU performance, storage type, and display quality.
+
+Laptop pricing increases substantially with higher RAM capacities, confirming RAM as a major price driver.
+Devices with 8 GB RAM dominate the market, serving as the mainstream standard, while laptops with 16 GB or more RAM show significantly higher median prices and are positioned as premium or performance-oriented products.
 
 
 
