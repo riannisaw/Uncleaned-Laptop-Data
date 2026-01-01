@@ -199,6 +199,10 @@ This indicates that while RAM is a key pricing factor, overall price is also inf
 Laptop pricing increases substantially with higher RAM capacities, confirming RAM as a major price driver.
 Devices with 8 GB RAM dominate the market, serving as the mainstream standard, while laptops with 16 GB or more RAM show significantly higher median prices and are positioned as premium or performance-oriented products.
 
+#### How do laptop types differ in price and specs?
+<img width="303" height="224" alt="image" src="https://github.com/user-attachments/assets/d1326c52-5e78-4507-835f-53a453e73b92" />
+
+
 
 
 
