@@ -1,4 +1,4 @@
-<img width="449" height="307" alt="image" src="https://github.com/user-attachments/assets/49b93fb7-d84e-44e7-be33-c260f62ebb6d" />## Data Cleaning Project - Uncleaned Laptop Price Dataset
+## Data Cleaning Project - Uncleaned Laptop Price Dataset
 **Understanding the Structure and Content of an Unprocessed Laptop Price Dataset**
 This is SQL based data analysis project focusing on data cleaning, exploratory data analysis, and insights into laptop pricing factors.
 
@@ -200,7 +200,35 @@ Laptop pricing increases substantially with higher RAM capacities, confirming RA
 Devices with 8 GB RAM dominate the market, serving as the mainstream standard, while laptops with 16 GB or more RAM show significantly higher median prices and are positioned as premium or performance-oriented products.
 
 #### How do laptop types differ in price and specs?
+**Typename vs median_price**
+
+<img width="619" height="223" alt="image" src="https://github.com/user-attachments/assets/621c81f5-00a6-4add-a028-6762e89cdfed" />
+
+
 <img width="303" height="224" alt="image" src="https://github.com/user-attachments/assets/d1326c52-5e78-4507-835f-53a453e73b92" />
+
+**Typename vs gpu brand**
+
+<img width="750" height="166" alt="image" src="https://github.com/user-attachments/assets/2504b867-c939-40e2-b442-fd8dec18e5c5" />
+
+**Typename vs ram**
+
+<img width="716" height="309" alt="image" src="https://github.com/user-attachments/assets/f30cda4e-a1a1-40b5-82b0-9bf3c60b1d28" />
+
+**Typename vs screen size**
+
+<img width="787" height="521" alt="image" src="https://github.com/user-attachments/assets/90c444ca-945b-4132-8cef-ffe92422728d" />
+
+**INSIGHTS:**
+
+- Gaming and Workstation laptops show the highest median and upper-quartile prices, with wide price dispersion.
+- Ultrabooks sit in a premium but narrower price band, reflecting consistent high-end specifications.
+- Notebooks and 2-in-1 Convertibles occupy the lower to mid-price range, with fewer high-price outliers.
+- The presence of discrete Nvidia GPUs is the primary driver behind the premium pricing of gaming and workstation laptops.
+- RAM acts as a gateway spec: as RAM increases, laptops move into higher display quality and price tiers.
+- Laptop pricing is strongly segmented by type: gaming and workstation laptops are expensive due to Nvidia GPUs and high-performance hardware, ultrabooks command a premium through design and display quality, while notebooks remain price-efficient by prioritizing integrated graphics and lower-tier screens.
+
+
 
 
 
