@@ -209,6 +209,9 @@ Devices with 8 GB RAM dominate the market, serving as the mainstream standard, w
 
 **Typename vs gpu brand**
 
+<img width="759" height="168" alt="image" src="https://github.com/user-attachments/assets/e7ee5d2f-2c57-41cd-af40-263e746b6deb" />
+
+
 <img width="750" height="166" alt="image" src="https://github.com/user-attachments/assets/2504b867-c939-40e2-b442-fd8dec18e5c5" />
 
 **Typename vs ram**
@@ -237,6 +240,17 @@ Devices with 8 GB RAM dominate the market, serving as the mainstream standard, w
 ### Visualization
 - [Laptop Market Dashboard (Tableau)](https://public.tableau.com/...)
 - Correlation heatmap generated from SQL output
+  The Tableau workbook used to generate the correlation heatmap  
+can be found here:
+
+<img width="907" height="464" alt="image" src="https://github.com/user-attachments/assets/35cd02d1-cca0-475b-a996-958b811dece8" />
+
+
+https://1drv.ms/u/c/3ada70049f92c48b/IQDntnLgxOa8TKN2EYdhHUDKAVC9w_XqLKoipBGcmEjwSQE?e=0npmwu 
+
+**Description**  
+This heatmap shows the Pearson correlation between laptop hardware features  
+such as RAM, price, screen size, and storage.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### Reproducibility Notes
