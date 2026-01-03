@@ -238,7 +238,12 @@ Devices with 8 GB RAM dominate the market, serving as the mainstream standard, w
 
 
 ### Visualization
-- [Laptop Market Dashboard (Tableau)](https://public.tableau.com/...)
+- [Laptop Market Dashboard (Tableau)](https://github.com/riannisaw/Laptop-Market-Dashboard/blob/main/README.md)
+
+  Overview Dashboard
+  <img width="1499" height="899" alt="Dashboard 3" src="https://github.com/user-attachments/assets/ca951e12-7e92-4591-bff5-19fb7b225b6e" />
+
+  
 - Correlation heatmap generated from SQL output
   The Tableau workbook used to generate the correlation heatmap  
 can be found here:
