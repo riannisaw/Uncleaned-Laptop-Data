@@ -33,21 +33,21 @@ The goal of this project is to identify the factors that contribute the price of
 </details>
 
 
-#### Data
-- raw
-- cleaned
+#### [Data](https://github.com/riannisaw/Uncleaned-Laptop-Data/tree/main/data)
+- [raw](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/data/laptop%20Data%20(raw).csv)
+- [cleaned](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/data/laptop_cleaning%20(cleaned).csv)
 
-#### Outputs
-- correlation.csv
-- heatmap.csv
+#### [Outputs](https://github.com/riannisaw/Uncleaned-Laptop-Data/tree/main/outputs)
+- [correlation.csv](https://github.com/riannisaw/Uncleaned-Laptop-Data/tree/main/outputs/heatmap%20correlation)
+- [heatmap visualisation](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/outputs/Heatmap%20Visualization.md)
 
 ### Table of Contents
 - [Data Overview](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/README.md#data-overview)
 - [Project Structure](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/README.md#project-structure)
-- Data Cleaning Approach
-- Exploratory Data Analysis
-- Key Analysis Highlights
-- Tableau Visualization
+- [Data Cleaning Approach](https://github.com/riannisaw/Annisa-Wulandari-Data-Analyst-Portfolio/edit/main/README.md#portfolio-projects)
+- [Exploratory Data Analysis](https://github.com/riannisaw/Annisa-Wulandari-Data-Analyst-Portfolio/edit/main/README.md#portfolio-projects)
+- [Key Analysis Highlights](https://github.com/riannisaw/Annisa-Wulandari-Data-Analyst-Portfolio/edit/main/README.md#portfolio-projects)
+- [Tableau Visualization](https://github.com/riannisaw/Annisa-Wulandari-Data-Analyst-Portfolio/edit/main/README.md#portfolio-projects)
 
 ### Data Cleaning Approach
 Data cleaning was performed in SQL to transform raw scraped data into an
@@ -67,7 +67,7 @@ The analysis was structured as:
 - Bivariate analysis to explore relationships between features and price
 - Multivariate analysis to study combined effects of multiple variables
 
-### Key Insights
+### Key Analysis Highlight
 #### Brand Distribution
 Which laptop brands have the highest number of product listings in the dataset?
 
