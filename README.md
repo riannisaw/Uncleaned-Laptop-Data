@@ -9,27 +9,21 @@ The Uncleaned Laptop Price dataset is a collection of laptop product listings sc
 The goal of this project is to identify the factors that contribute the price of laptop. By performing a data analysis using SQL, this project aims to clean the data, which is important to the data to be tidy to provide valuable insights to analyze.
 
 ### Project Structure
-#### SQL
+#### [SQL](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/sql/01_schema/create_table.sql)
 
-<details>
-<summary><strong>01_schema</strong></summary>
-- [`create_table.sql`](sql/01_schema/create_table.sql)
-</details>
+[**Schema**](https://github.com/riannisaw/Uncleaned-Laptop-Data/tree/main/sql/01_schema)
+- [Create Table](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/sql/01_schema/create_table.sql)
 
-<details>
-<summary><strong>02_data_cleaning</strong></summary>
+[**Data Cleaning**](https://github.com/riannisaw/Uncleaned-Laptop-Data/tree/main/sql/02_data%20cleaning)
+- [assessing_data.sql](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/sql/02_data%20cleaning/assesing_data.sql)
+- [cleaning_data.sql](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/sql/02_data%20cleaning/cleaning_data.sql)
 
-- [`assessing_data.sql`](sql/02_data_cleaning/assessing_data.sql)
-- [`cleaning_data.sql`](sql/02_data_cleaning/cleaning_data.sql)
-</details>
+[**EDA**](https://github.com/riannisaw/Uncleaned-Laptop-Data/tree/main/sql/03_EDA)
 
-<details>
-<summary><strong>03_EDA</strong></summary>
-
-- [`01_univariate_analysis.sql`](sql/03_EDA/01_univariate_analysis.sql)
-- [`02_bivariate_analysis.sql`](sql/03_EDA/02_bivariate_analysis.sql)
-- [`03_regular_bivariate.sql`](sql/03_EDA/03_regular_bivariate.sql)
-- [`04_multivariate_analysis.sql`](sql/03_EDA/04_multivariate_analysis.sql)
+- [`01_univariate_analysis.sql`](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/sql/03_EDA/01_univariate_analysis.sql)
+- [`02_bivariate_analysis.sql`](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/sql/03_EDA/02_bivariate%20analysis.sql)
+- [`03_regular_bivariate.sql`](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/sql/03_EDA/03_regular_bivariate_analysis.sql)
+- [`04_multivariate_analysis.sql`](https://github.com/riannisaw/Uncleaned-Laptop-Data/blob/main/sql/03_EDA/04_Multivariate_Analysis)
 </details>
 
 
